@@ -1,9 +1,15 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ReadWeather.Filters;
+using ReadWeather.Models;
+using ReadWeather.Token;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +29,22 @@ namespace ReadWeather
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Databse service 
+            services.AddDbContext<AppDbContext>(
+               c => c.UseSqlServer(
+                   Configuration.GetConnectionString("DefaultConnection")
+               ));
             services.AddControllersWithViews();
-            services.AddHttpClient();
+
+            //services.AddAuthentication(AuthenticationFilter);
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -44,7 +59,7 @@ namespace ReadWeather
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            //use UseAuthentication before the UseAuthorization
             app.UseAuthentication();
             app.UseAuthorization();
             

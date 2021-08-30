@@ -1,11 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿@model IEnumerable<ReadWeather.Models.Weather>
 
-namespace ReadWeather.Views.Weather
-{
-    public class Index
-    {
-    }
+@{
+    ViewData["Title"] = "Index";
 }
+
+@Html.AntiForgeryToken();
+
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.humidity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.temperature)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.min_temperature)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.max_temperature)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="border-top-color:chartreuse">
+                <td >
+                    @Html.DisplayFor(modelItem => item.humidity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.humidity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.min_temperature)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.max_temperature)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
